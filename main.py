@@ -1,12 +1,18 @@
 # AI Acknowlegement:
 # ChatGPT was used to explain python concepts,
 # provide feedback and review my code.
+import json
 print("BANSAB VENTURES")
 print("==============================")
 print("INVENTORY MANAGEMENT SYSTEM")
 print("Manage smarter. Grow stronger.")
 
-phones =[]
+try:
+    with open("phones.json", "r") as file:
+        phones = json.load(file)
+
+except FileNotFoundError:
+    phones = []
 
 running = True
 while running:
@@ -14,7 +20,8 @@ while running:
     print("1. Add New phone")
     print("2. Add Inventory")
     print("3. Search Phone by IMEI")
-    print("4. Exit")
+    print("4. Check Low Stock")
+    print("5. Exit")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -37,6 +44,10 @@ while running:
         }
 
         phones.append(phone)
+
+        with open("phones.json", "w") as file:
+            json.dump(phones, file, indent=4)
+
         print("Phone added successfully!")
 
         print(phone)
@@ -65,6 +76,25 @@ while running:
             print("Phone not found.")
 
     elif choice == "4":
+        print("BANSAB LOW STOCK ALERT")
+        low_stock_threshold = 3
+
+        model_brand = input("Enter phone brand: ")
+        model_name = input("Enter phone model: ")
+        model_count = 0
+        for phone in phones:
+          if phone["brand"] == model_brand and phone["model"] == model_name:
+           model_count = model_count + 1
+        if model_count == 0:
+            print("Out of stock")
+
+        elif model_count <= low_stock_threshold:
+            print("Low stock:", model_count, "phones remaining")
+
+        else:
+            print("In stock:", model_count, "phones available")
+
+    elif choice == "5":
         running = False
         print("Thank you for using Bansab")
 
