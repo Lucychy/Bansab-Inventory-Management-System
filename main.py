@@ -5,42 +5,7 @@ print("BANSAB VENTURES")
 print("==============================")
 print("INVENTORY MANAGEMENT SYSTEM")
 print("Manage smarter. Grow stronger.")
-business_name = "Bansab Ventures"
-product_name = "iphone 17pro"
-brand = "Apple"
-storage = "512GB"
-colour = "Black"
-print("Business:",business_name)
-print("Product:",product_name)
-print("Brand:",brand)
-print("Storage:",storage)
-print("Colour:",colour)
 
-quantity = 10
-selling_price = 1500000
-imei = "003567891234567"
-discount = 25000.50
-print(type(quantity))
-print(type(selling_price))
-print(type(imei))
-print(type(discount))
-product_name=input("Enter product name: ")
-print("You entered:", product_name)
-quantity= int(input("Enter quantity: "))
-print(type(quantity))
-selling_price = float(input("Enter selling price: "))
-print(type(selling_price))
-
-
-products=["iphone 17pro", "Samsung Galaxy S26ultra", "Google pixel 10 Pro"]
-print(products[1])
-products.append("iphone 17 promax")
-print(products)
-print(len(products))
-products.remove("Google pixel 10 Pro")
-print(products)
-for number, product in enumerate(products, start=1):
-    print(number, product)
 phones =[]
 
 running = True
@@ -77,6 +42,7 @@ while running:
         print(phone)
     elif choice == "2":
         print("BANSAB PHONE INVENTORY")
+        print("Total phones in stock:", len(phones))
 
         if len(phones) == 0:
             print("No phones have been added yet.")
