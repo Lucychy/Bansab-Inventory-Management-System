@@ -30,27 +30,37 @@ while running:
         phone_storage = input("Enter phone storage: ")
         phone_colour = input("Enter phone colour: ")
         phone_imei = input("Enter phone imei: ")
-        selling_price = float(input("Enter selling price (₦): "))
-        purchase_cost = float(input("Enter purchase cost (₦): "))
+        imei_exists = False
 
-        phone = {
-            "brand": phone_brand,
-            "model": phone_model,
-            "storage": phone_storage,
-            "colour": phone_colour,
-            "imei": phone_imei,
-            "selling_price": selling_price,
-            "purchase_cost": purchase_cost
-        }
+        for phone in phones:
+            if phone["imei"] == phone_imei:
+                imei_exists = True
+        if imei_exists == True:
+                print("This IMEI already exists! phone cannot be added.")
 
-        phones.append(phone)
+        else:
+                print("IMEI is available. Continue adding phone.")
+                selling_price = float(input("Enter selling price (₦): "))
+                purchase_cost = float(input("Enter purchase cost (₦): "))
 
-        with open("phones.json", "w") as file:
-            json.dump(phones, file, indent=4)
+                phone = {
+                    "brand": phone_brand,
+                    "model": phone_model,
+                    "storage": phone_storage,
+                    "colour": phone_colour,
+                    "imei": phone_imei,
+                    "selling_price": selling_price,
+                    "purchase_cost": purchase_cost
+                }
 
-        print("Phone added successfully!")
+                phones.append(phone)
 
-        print(phone)
+                with open("phones.json", "w") as file:
+                    json.dump(phones, file, indent=4)
+
+                print("Phone added successfully!")
+
+                print(phone)
     elif choice == "2":
         print("BANSAB PHONE INVENTORY")
         print("Total phones in stock:", len(phones))
