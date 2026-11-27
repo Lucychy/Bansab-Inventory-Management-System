@@ -13,6 +13,10 @@ try:
 
 except FileNotFoundError:
     phones = []
+    for phone in phones:
+        phone.setdefault("status", "In stock")
+        with open("phones.json", "w") as file:
+         json.dump(phones, file, indent=4)
 
 running = True
 while running:
@@ -52,7 +56,8 @@ while running:
                     "location": phone_location,
                     "imei": phone_imei,
                     "selling_price": selling_price,
-                    "purchase_cost": purchase_cost
+                    "purchase_cost": purchase_cost,
+                    "status": "In stock"
                 }
 
                 phones.append(phone)
@@ -78,6 +83,7 @@ while running:
                 print("Storage:", phone["storage"])
                 print("Colour:", phone["colour"])
                 print ("Location:", phone.get("location", "Not recorded"))
+                print("Stock Status:", phone.get("status", "In stock"))
                 print("IMEI:", phone["imei"])
                 print("Selling Price: ₦", format(phone["selling_price"], ",.0f"))
                 print("------------------------------")
