@@ -70,19 +70,26 @@ while running:
 
         else:
             for phone in phones:
-                print(phone)
+                print("------------------------------")
+                print("Brand:", phone["brand"])
+                print("Model:", phone["model"])
+                print("Storage:", phone["storage"])
+                print("Colour:", phone["colour"])
+                print("IMEI:", phone["imei"])
+                print("Selling Price: ₦", format(phone["selling_price"], ",.0f"))
+                print("------------------------------")
     
     elif choice == "3":
-        search_imei = input("Enter IMEI to search: ")
-        found = False
+         search_imei = input("Enter IMEI to search: ")
+         found = False
 
-        for phone in phones:
-            if phone["imei"] == search_imei:
-                found = True
-                print("Phone found!")
-                print(phone)
+         for phone in phones:
+             if phone["imei"] == search_imei:
+                 found = True
+                 print("Phone found!")
+                 print(phone)
 
-        if found == False:
+         if found == False:
             print("Phone not found.")
 
     elif choice == "4":
@@ -93,8 +100,8 @@ while running:
         model_name = input("Enter phone model: ")
         model_count = 0
         for phone in phones:
-          if phone["brand"] == model_brand and phone["model"] == model_name:
-           model_count = model_count + 1
+            if phone["brand"] == model_brand and phone["model"] == model_name:
+                model_count = model_count + 1
         if model_count == 0:
             print("Out of stock")
 
@@ -103,7 +110,6 @@ while running:
 
         else:
             print("In stock:", model_count, "phones available")
-
     elif choice == "5":
         running = False
         print("Thank you for using Bansab")
