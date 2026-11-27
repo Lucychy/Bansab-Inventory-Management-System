@@ -16,5 +16,15 @@
         "imei": "345002188564000",
         "selling_price": 3500000.0,
         "purchase_cost": 2000000.0
+    },
+    {
+        "brand": "Apple",
+        "model": "17 promax",
+        "storage": "1 terra byte",
+        "colour": "Silver",
+        "location": "main display shelf A",
+        "imei": "300221154678123",
+        "selling_price": 2000000.0,
+        "purchase_cost": 1200000.0
     }
 ]

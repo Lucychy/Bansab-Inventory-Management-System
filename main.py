@@ -1,6 +1,6 @@
 # AI Acknowlegement:
 # ChatGPT was used to explain python concepts,
-# provide feedback and review my code.
+# review my code.
 import json
 print("BANSAB VENTURES")
 print("==============================")
@@ -29,6 +29,7 @@ while running:
         phone_model = input("Enter phone model: ")
         phone_storage = input("Enter phone storage: ")
         phone_colour = input("Enter phone colour: ")
+        phone_location = input("Enter phone location: ")
         phone_imei = input("Enter phone imei: ")
         imei_exists = False
 
@@ -48,6 +49,7 @@ while running:
                     "model": phone_model,
                     "storage": phone_storage,
                     "colour": phone_colour,
+                    "location": phone_location,
                     "imei": phone_imei,
                     "selling_price": selling_price,
                     "purchase_cost": purchase_cost
@@ -75,10 +77,10 @@ while running:
                 print("Model:", phone["model"])
                 print("Storage:", phone["storage"])
                 print("Colour:", phone["colour"])
+                print ("Location:", phone.get("location", "Not recorded"))
                 print("IMEI:", phone["imei"])
                 print("Selling Price: ₦", format(phone["selling_price"], ",.0f"))
                 print("------------------------------")
-    
     elif choice == "3":
          search_imei = input("Enter IMEI to search: ")
          found = False
