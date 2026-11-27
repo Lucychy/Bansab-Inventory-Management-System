@@ -13,10 +13,10 @@ try:
 
 except FileNotFoundError:
     phones = []
-    for phone in phones:
-        phone.setdefault("status", "In stock")
-        with open("phones.json", "w") as file:
-         json.dump(phones, file, indent=4)
+for phone in phones:
+    phone.setdefault("status", "In stock")
+with open("phones.json", "w") as file:
+    json.dump(phones, file, indent=4)
 
 running = True
 while running:
@@ -26,6 +26,7 @@ while running:
     print("3. Search Phone by IMEI")
     print("4. Check Low Stock")
     print("5. Exit")
+    print("6. Update Phone Stock Status")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -70,8 +71,21 @@ while running:
                 print(phone)
     elif choice == "2":
         print("BANSAB PHONE INVENTORY")
-        print("Total phones in stock:", len(phones))
+        print("Total recorded phones:", len(phones))
+        available_count = 0
+        pending_count = 0
+        sold_count = 0
+        for phone in phones:
+            if phone["status"] == "In stock":
+                available_count = available_count + 1
+            elif phone["status"] == "Pending":
+                pending_count = pending_count + 1
 
+            elif phone["status"] == "Sold":
+                sold_count = sold_count + 1
+        print("Available phones:", available_count)
+        print("Pending phones:", pending_count)
+        print("Sold phones:", sold_count)
         if len(phones) == 0:
             print("No phones have been added yet.")
 
@@ -108,7 +122,7 @@ while running:
         model_name = input("Enter phone model: ")
         model_count = 0
         for phone in phones:
-            if phone["brand"] == model_brand and phone["model"] == model_name:
+            if phone["brand"] == model_brand and phone["model"] == model_name and phone["status"] == "In stock":               
                 model_count = model_count + 1
         if model_count == 0:
             print("Out of stock")
@@ -121,6 +135,34 @@ while running:
     elif choice == "5":
         running = False
         print("Thank you for using Bansab")
+    elif choice == "6":
+        update_imei = input("Enter phone IMEI: ")
+        found = False
+        for phone in phones:
+            if phone["imei"] == update_imei:
+                found = True
+                print("Phone found!")
+                print("Current status:", phone.get("status", "In stock"))
+                print("Choose new phone status:")
+                print("1. In stock")
+                print("2. Pending")
+                print("3. sold")
+                new_status = input("Enter your choice: ")
+                if new_status == "1":
+                    phone["status"] = "In stock"
 
+                elif new_status == "2":
+                    phone["status"] = "Pending"
+
+                elif new_status == "3":
+                    phone["status"] = "Sold"
+
+                else:
+                    print("Invalid status choice.")
+
+        if found == False:
+                print("Phone not found.")
+        with open("phones.json", "w") as file:
+            json.dump(phones, file, indent=4)
     else:
         print("Invalid choice. Please try again.")
