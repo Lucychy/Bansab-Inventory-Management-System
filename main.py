@@ -36,6 +36,9 @@ while running:
     print("6. Update Phone Stock Status")
     print("7. Complete Phone Sale")
     print("8. Review sales History")
+    print("9. Daily Sales Report")
+    print("10. Monthly Sales Report")
+    print("11. Yearly Sales Report")
     choice = input("Enter your choice: ").strip()
 
     if choice == "1":
@@ -247,8 +250,71 @@ while running:
                 print("Date:", sale["sale_date"])
                 print("Time:", sale["sale_time"])
                 print("==============================")
+    elif choice == "9": 
+                print("BANSAB DAILY SALES REPORT")
+                today = datetime.now().strftime("%d/%m/%Y")
+                print("Date:", today)
+                total_sold = 0
+                total_revenue = 0
+                total_cost = 0
+                total_profit = 0
+                for sale in sales:
+                    if sale["sale_date"] == today:
+                        total_sold = total_sold + 1
+                        total_revenue = total_revenue + sale["selling_price"]
+                        total_cost = total_cost + sale["purchase_cost"]
+                        total_profit = total_profit + sale["profit"]
+                print("==============================")
+                print("Total Phones Sold:", total_sold)
+                print("Total Revenue: ₦", format(total_revenue, ",.0f"))
+                print("Total Purchase Cost: ₦", format(total_cost, ",.0f"))
+                print("Gross Profit: ₦", format(total_profit, ",.0f"))
+                print("==============================")
+
+    elif choice == "10":
+        print("BANSAB MONTHLY SALES REPORT")
+        current_month = datetime.now().strftime("%m/%Y")
+        print("Month:", current_month)
+        total_sold = 0
+        total_revenue = 0
+        total_cost = 0
+        total_profit = 0
+        for sale in sales:
+            if sale["sale_date"].endswith(current_month):
+                total_sold = total_sold + 1
+                total_revenue = total_revenue + sale["selling_price"]
+                total_cost = total_cost + sale["purchase_cost"]
+                total_profit = total_profit + sale["profit"]
+        print("==============================")
+        print("Total Phones Sold:", total_sold)
+        print("Total Revenue: ₦", format(total_revenue, ",.0f"))
+        print("Total Purchase Cost: ₦", format(total_cost, ",.0f"))
+        print("Gross Profit: ₦", format(total_profit, ",.0f"))
+        print("==============================") 
+    elif choice == "11":
+        print("BANSAB YEARLY SALES REPORT")
+        current_year = datetime.now().strftime("%Y")
+        print("Year:", current_year)
+        total_sold = 0
+        total_revenue = 0
+        total_cost = 0
+        total_profit = 0
+        for sale in sales:
+            if sale["sale_date"].endswith(current_year):
+                total_sold = total_sold + 1
+                total_revenue = total_revenue + sale["selling_price"]
+                total_cost = total_cost + sale["purchase_cost"]
+                total_profit = total_profit + sale["profit"]
+        print("==============================")
+        print("Total Phones Sold:", total_sold)
+        print("Total Revenue: ₦", format(total_revenue, ",.0f"))
+        print("Total Purchase Cost: ₦", format(total_cost, ",.0f"))
+        print("Gross Profit: ₦", format(total_profit, ",.0f"))
+        print("==============================")   
+                          
+                
     else:
-            print("Invalid choice. Please try again.")
+        print("Invalid choice. Please try again.")
         
 
 
