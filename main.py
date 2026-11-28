@@ -3,6 +3,9 @@
 # review my code.
 import json
 from datetime import datetime
+import getpass
+import hashlib
+import secrets
 print("BANSAB VENTURES")
 print("==============================")
 print("INVENTORY MANAGEMENT SYSTEM")
@@ -23,9 +26,68 @@ running = True
 try:
     with open("sales.json", "r") as file:
         sales = json.load(file)
-
 except FileNotFoundError:
     sales = []
+try:
+    with open("users.json", "r") as file:
+        users = json.load(file)
+
+except FileNotFoundError:
+    users = []
+if len(users) == 0:
+    print("BANSAB FIRST-TIME ADMIN SETUP")
+    full_name = input("Enter your full name: ")
+    username = input("Create your username: ")
+    password = getpass.getpass("Create your password: ")
+    confirm_password = getpass.getpass("Confirm your password: ")
+    if password == confirm_password:
+        print("Passwords match.")
+        salt = secrets.token_hex(16)
+        password_hash = hashlib.pbkdf2_hmac(
+            "sha256",
+            password.encode(),
+            bytes.fromhex(salt),
+            600000
+        ).hex()
+        user = {
+            "full_name": full_name,
+            "username": username,
+            "password_hash": password_hash,
+            "salt": salt,
+            "role": "Admin"
+        }
+        users.append(user)
+        with open("users.json", "w") as file:
+            json.dump(users, file, indent=4)
+
+        print("Admin account created successfully!")
+
+    else:
+        print("Passwords do not match.")
+print("==============================")
+print("BANSAB LOGIN")
+print("==============================")
+login_username = input("Enter your username: ")
+login_password = getpass.getpass("Enter your password: ")
+logged_in = False
+for user in users:
+    if user["username"] == login_username:
+        print("Username found.")
+        login_hash = hashlib.pbkdf2_hmac(
+            "sha256",
+            login_password.encode(),
+            bytes.fromhex(user["salt"]),
+            600000
+        ).hex()
+
+        if secrets.compare_digest(login_hash, user["password_hash"]):
+            logged_in = True
+            print("Login successful!")
+        else:
+            print("Incorrect password.")
+if logged_in == False:
+    print("Access denied. Invalid username or password.")
+    running = False
 while running:
     print("BANSAB INVENTORY MANAGEMENT SYSTEM")
     print("1. Add New phone")
