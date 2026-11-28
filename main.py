@@ -2,6 +2,7 @@
 # ChatGPT was used to explain python concepts,
 # review my code.
 import json
+from datetime import datetime
 print("BANSAB VENTURES")
 print("==============================")
 print("INVENTORY MANAGEMENT SYSTEM")
@@ -19,6 +20,12 @@ with open("phones.json", "w") as file:
     json.dump(phones, file, indent=4)
 
 running = True
+try:
+    with open("sales.json", "r") as file:
+        sales = json.load(file)
+
+except FileNotFoundError:
+    sales = []
 while running:
     print("BANSAB INVENTORY MANAGEMENT SYSTEM")
     print("1. Add New phone")
@@ -27,6 +34,7 @@ while running:
     print("4. Check Low Stock")
     print("5. Exit")
     print("6. Update Phone Stock Status")
+    print("7. Complete Phone Sale")
     choice = input("Enter your choice: ")
 
     if choice == "1":
@@ -143,26 +151,89 @@ while running:
                 found = True
                 print("Phone found!")
                 print("Current status:", phone.get("status", "In stock"))
-                print("Choose new phone status:")
-                print("1. In stock")
-                print("2. Pending")
-                print("3. sold")
-                new_status = input("Enter your choice: ")
-                if new_status == "1":
-                    phone["status"] = "In stock"
-
-                elif new_status == "2":
-                    phone["status"] = "Pending"
-
-                elif new_status == "3":
-                    phone["status"] = "Sold"
-
+                if phone["status"] == "Sold":
+                    print("This phone has already been sold.")
                 else:
-                    print("Invalid status choice.")
+                    print("Choose new phone status:")
+                    print("1. In stock")
+                    print("2. Pending")
+                    new_status = input("Enter your choice: ")
+                    if new_status == "1":
+                        phone["status"] = "In stock"
+
+                    elif new_status == "2":
+                        phone["status"] = "Pending"
+                    else:
+                        print("Invalid status choice.")
 
         if found == False:
                 print("Phone not found.")
         with open("phones.json", "w") as file:
             json.dump(phones, file, indent=4)
+    elif choice == "7":
+        sale_imei = input("Enter phone IMEI to sell: ")
+        found = False
+        for phone in phones:
+            if phone["imei"] == sale_imei:
+                found = True
+                print("Phone found!")
+                if phone["status"] == "Sold":
+                    print("This phone has already been sold.")
+                else:
+                    print("Phone is available for sale.")
+                    print("Brand:", phone["brand"])
+                    print("Model:", phone["model"])
+                    print("Storage:", phone["storage"])
+                    print("Colour:", phone["colour"])
+                    print("IMEI:", phone["imei"])
+                    print("Selling Price: ₦", format(phone["selling_price"], ",.0f"))
+                    confirm_sale = input("Confirm sale? (yes/no): ")
+                    if confirm_sale.lower() == "yes":
+                       
+                        sale_date = datetime.now().strftime("%d/%m/%Y")
+                        sale_time = datetime.now().strftime("%H:%M:%S")
+                        profit = phone["selling_price"] - phone["purchase_cost"]
+                        sale_year = datetime.now().year
+                        transaction_id = "BSV-" + str(sale_year) + "-" + str(len(sales) + 1).zfill(4)
+                        sale = {
+                            "transaction_id": transaction_id,
+                            "brand": phone["brand"],
+                            "model": phone["model"],
+                            "imei": phone["imei"],
+                            "selling_price": phone["selling_price"],
+                            "purchase_cost": phone["purchase_cost"],
+                             "profit": profit,
+                            "sale_date": sale_date,
+                            "sale_time": sale_time
+                        }
+                        sales.append(sale)
+                        with open("sales.json", "w") as file:
+                            json.dump(sales, file, indent=4)
+                        phone["status"] = "Sold"
+                        with open("phones.json", "w") as file:
+                            json.dump(phones, file, indent=4)
+                            print("==============================")
+                            print("BANSAB VENTURES")
+                            print("SALE COMPLETED SUCCESSFULLY")
+                            print("==============================")
+                            print("Transaction ID:", transaction_id)
+                            print("Product:", phone["brand"], phone["model"])
+                            print("IMEI:", phone["imei"])
+                            print("Amount Paid: ₦", format(phone["selling_price"], ",.0f"))
+                            print("Date:", sale_date)
+                            print("Time:", sale_time)
+                            print("Stock Status:", phone["status"])
+                            print("==============================")
+                    elif confirm_sale.lower() == "no":
+                        print("Sale cancelled.")
+
+                    else:
+                        print("Invalid response.")
+        if found == False:
+            print("Phone not found.")
     else:
         print("Invalid choice. Please try again.")
+        
+
+
+    
