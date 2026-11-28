@@ -35,7 +35,8 @@ while running:
     print("5. Exit")
     print("6. Update Phone Stock Status")
     print("7. Complete Phone Sale")
-    choice = input("Enter your choice: ")
+    print("8. Review sales History")
+    choice = input("Enter your choice: ").strip()
 
     if choice == "1":
         phone_brand = input("Enter phone brand: ")
@@ -231,8 +232,23 @@ while running:
                         print("Invalid response.")
         if found == False:
             print("Phone not found.")
+        
+    elif choice == "8": 
+        print("BANSAB SALES HISTORY")
+        if len(sales) == 0:
+            print("No sales have been recorded yet.")
+        else:
+            for sale in sales:
+                print("==============================")
+                print("Transaction ID:", sale["transaction_id"])
+                print("Product:", sale["brand"], sale["model"])
+                print("IMEI:", sale["imei"])
+                print("Amount Paid: ₦", format(sale["selling_price"], ",.0f"))
+                print("Date:", sale["sale_date"])
+                print("Time:", sale["sale_time"])
+                print("==============================")
     else:
-        print("Invalid choice. Please try again.")
+            print("Invalid choice. Please try again.")
         
 
 
